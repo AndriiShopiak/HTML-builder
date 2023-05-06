@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 const url = path.join(__dirname, 'text.txt');
+fs.writeFile(url, "", (err) => {});
 process.on("exit" , () => {
   process.stdout.write("Wow, that's really cool, you're on your way, then good luck!");
   process.exit();
