@@ -1,23 +1,25 @@
-import { fileURLToPath } from 'node:url';
-import { readFile } from 'node:fs/promises';
-import { EOL } from 'node:os';
-import { resolve, dirname, extname } from 'node:path';
-import { createWriteStream } from 'node:fs';
-import { readdir } from 'node:fs/promises';
+const path = require('path');
+const fs = require('fs');
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const sourceFolder = 'styles';
+const outputFolder = 'project-dist';
+const fileName = 'bundle.css';
 
-const bundleFilePath = resolve(__dirname, 'project-dist/bundle.css');
-const stylesDirPath = resolve(__dirname, 'styles');
+const outputFile = fs.createWriteStream(
+  path.join(__dirname, outputFolder, fileName)
+);
 
-const stylesDirData = await readdir(stylesDirPath, { withFileTypes: true });
-const cssFiles = stylesDirData.filter((item) => item.isFile() && extname(item.name) === '.css');
+const buildBundle = async () => {
+  const files = await fs.promises.readdir(path.join(__dirname, sourceFolder), {
+    withFileTypes: true,
+  });
 
-const ws = createWriteStream(bundleFilePath, 'utf-8');
+  for await (const file of files) {
+    const filePath = path.join(__dirname, sourceFolder, file.name);
+    if (file.isFile() && path.extname(file.name) === '.css') {
+      fs.createReadStream(filePath).pipe(outputFile);
+    }
+  }
+};
 
-for (const file of cssFiles) {
-  const filePath = resolve(stylesDirPath, file.name);
-  const fileData = await readFile(filePath, 'utf-8');
-
-  ws.write(fileData + EOL);
-}
+buildBundle();
