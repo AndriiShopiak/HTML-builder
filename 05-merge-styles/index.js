@@ -2,11 +2,11 @@ const path = require('path');
 const fs = require('fs');
 
 const srcFolder = 'styles';
-const outputFolder = 'project-dist';
-const fileName = 'bundle.css';
+const exitFolder = 'project-dist';
+const FileName = 'bundle.css';
 
 const outputFile = fs.createWriteStream(
-  path.join(__dirname, outputFolder, fileName)
+  path.join(__dirname, exitFolder, FileName)
 );
 
 async function buildBundle () {
