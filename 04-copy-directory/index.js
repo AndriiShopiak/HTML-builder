@@ -16,7 +16,7 @@ async function copyDir (source, output) {
     }
   };
   
-  async function deleteFolder (folder) {
+ async function deleteFolder (folder) {
     await fs.promises.rm(folder, { recursive: true });
   };
   
@@ -32,14 +32,14 @@ async function copyDir (source, output) {
     return allFilesNames;
   };
   
-   async function copyFiles (allFilesNames, srcFolder, outputFolder) {
+ async function copyFiles (allFilesNames, srcFolder, outputFolder) {
     for (let file of allFilesNames) {
-      const sourceFile = path.join(srcFolder, file.name);
+      const srcFile = path.join(srcFolder, file.name);
       const outputFile = path.join(outputFolder, file.name);
       if (file.isFile()) {
-        fs.promises.copyFile(sourceFile, outputFile);
+        fs.promises.copyFile(srcFile, outputFile);
       } else {
-        await copyDir(sourceFile, outputFile);
+        await copyDir(srcFile, outputFile);
       }
     }
   };
