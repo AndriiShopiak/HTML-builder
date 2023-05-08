@@ -1,40 +1,40 @@
 const path = require('path');
 const fs = require('fs');
 
-const sourceFolder = path.join(__dirname, 'files');
+const srcFolder = path.join(__dirname, 'files');
 const outputFolder = path.join(__dirname, 'files-copy');
 
-const copyDir = async (source, output) => {
+async function copyDir (source, output) {
     try {
       await deleteFolder(output);
     } catch {
-      console.log('Create folder "files-copy"');
+      console.log('Creating "files-copy" folder');
     } finally {
       await createFolder(output);
-      const folderData = await readFolder(source);
-      await copyFiles(folderData, source, output);
+      const srcData = await readFolder(source);
+      await copyFiles(srcData, source, output);
     }
   };
   
-  const deleteFolder = async (folder) => {
+  async function deleteFolder (folder) {
     await fs.promises.rm(folder, { recursive: true });
   };
   
-  const createFolder = async (folder) => {
+ async function createFolder (folder) {
     fs.promises.mkdir(folder, { recursive: true });
   };
   
-  const readFolder = async (folder) => {
-    const filesNames = await fs.promises.readdir(folder, {
+ async function readFolder (folder) {
+    const allFilesNames = await fs.promises.readdir(folder, {
       withFileTypes: true,
     });
   
-    return filesNames;
+    return allFilesNames;
   };
   
-  const copyFiles = async (filesNames, sourceFolder, outputFolder) => {
-    for (let file of filesNames) {
-      const sourceFile = path.join(sourceFolder, file.name);
+   async function copyFiles (allFilesNames, srcFolder, outputFolder) {
+    for (let file of allFilesNames) {
+      const sourceFile = path.join(srcFolder, file.name);
       const outputFile = path.join(outputFolder, file.name);
       if (file.isFile()) {
         fs.promises.copyFile(sourceFile, outputFile);
@@ -44,4 +44,4 @@ const copyDir = async (source, output) => {
     }
   };
   
-  copyDir(sourceFolder, outputFolder);
+  copyDir(srcFolder, outputFolder);
