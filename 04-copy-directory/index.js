@@ -6,7 +6,7 @@ const outputFolder = path.join(__dirname, 'files-copy');
 
 async function copyDir (source, output) {
     try {
-      await deleteFolder(output);
+        await fs.promises.rm(output, { recursive: true });
     } catch {
       console.log('Creating "files-copy" folder');
     } finally {
@@ -14,10 +14,6 @@ async function copyDir (source, output) {
       const srcData = await readFolder(source);
       await copyFiles(srcData, source, output);
     }
-  };
-  
- async function deleteFolder (folder) {
-    await fs.promises.rm(folder, { recursive: true });
   };
   
  async function createFolder (folder) {
