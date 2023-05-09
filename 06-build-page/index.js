@@ -1,0 +1,10 @@
+const path = require('path');
+const fs = require('fs');
+const { pipeline } = require('stream');
+const template = path.join(__dirname, 'template.html');
+const components = path.join(__dirname, 'components');
+const sourceAssetsFolder = path.join(__dirname, 'assets');
+const outputFolder = path.join(__dirname, 'project-dist');
+const outputAssetsFolder = path.join(outputFolder, 'assets');
+const sourceStyles = path.join(__dirname, 'styles');
+const outputStyle = 'style.css';
