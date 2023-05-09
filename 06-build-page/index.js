@@ -28,3 +28,9 @@ async function deleteFolder(folder) {
       console.log('');
     }
   };
+
+// create folder function
+async function createFolder (folder) {
+    fs.promises.mkdir(folder, { recursive: true });
+  };
+  
