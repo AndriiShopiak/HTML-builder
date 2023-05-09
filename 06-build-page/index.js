@@ -33,4 +33,12 @@ async function deleteFolder(folder) {
 async function createFolder (folder) {
     fs.promises.mkdir(folder, { recursive: true });
   };
+
+// implemented read folder 
+async function readFolder (folder) {
+    const filesNames = await fs.promises.readdir(folder, {
+      withFileTypes: true,
+    });
   
+    return filesNames;
+  };  
