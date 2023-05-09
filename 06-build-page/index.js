@@ -9,8 +9,8 @@ const outputAssetsFolder = path.join(outputFolder, 'assets');
 const sourceStyles = path.join(__dirname, 'styles');
 const outputStyle = 'style.css';
 
-// Copy dir 
-const copyDir = async (source, output) => {
+// Copy dir function
+async function copyDir (source, output) {
     try {
       await createFolder(output);
       const folderData = await readFolder(source);
