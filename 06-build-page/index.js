@@ -19,3 +19,12 @@ async function copyDir (source, output) {
       throw new Error(e);
     }
   };
+
+//   implemented delete folder function
+async function deleteFolder(folder) {
+    try {
+      await fs.promises.rm(folder, { recursive: true });
+    } catch (e) {
+      console.log('');
+    }
+  };
