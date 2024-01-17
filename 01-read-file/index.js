@@ -8,6 +8,6 @@ stream.on('readable', function(){
 });
 //  Use end when file reading ended
 stream.on('end', function(){
-  console.log('THE END');
+  console.log('File processed successfully :)');
 });
  
