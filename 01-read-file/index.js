@@ -6,7 +6,7 @@ stream.on('readable', function(){
   let data = stream.read();
   if(data) console.log(data);
 });
-//  Use end when file reading ended
+//  Use end event when file reading ended
 stream.on('end', function(){
   console.log('File processed successfully :)');
 });
