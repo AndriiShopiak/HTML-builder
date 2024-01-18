@@ -1,6 +1,6 @@
 const process = require('process');
 const fs = require('fs');
-fs.writeFile('02-write-file/text.txt', '', () => { });
+fs.writeFile('02-write-file/text.txt', '', () => {});
 process.on('exit', stopProcess);
 process.stdin.on('data', data => fs.appendFile('02-write-file/text.txt', data, err => {
   if (err) throw err;
