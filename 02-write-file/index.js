@@ -6,12 +6,13 @@ process.stdin.on('data', data => fs.appendFile('02-write-file/text.txt', data, e
   if (err) throw err;
   if (data.toString().trim() === 'exit') process.exit();
 }));
-process.on('SIGINT', () => {
-  process.exit();
-});
+process.on('SIGINT', exitExecuting);
 console.log('Hey, how did you get here friend? Well, tell me in the console...');
 
 function stopProcess() {
   process.stdout.write('Wow, that\'s really cool, you\'re on your way, then good luck!');
+  process.exit();
+}
+function exitExecuting() {
   process.exit();
 }
