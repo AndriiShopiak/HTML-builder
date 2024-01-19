@@ -20,6 +20,6 @@ async function readFileDir (directoryPath) {
     }
   } catch (err) {
     console.error(err);
-}
+  }
 }
 readFileDir(directory);
