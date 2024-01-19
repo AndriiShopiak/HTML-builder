@@ -1,43 +1,25 @@
+// import all required modules
+const fsProm = require('fs/promises');
 const path = require('path');
-const fs = require('fs');
 
-const srcFolder = path.join(__dirname, 'files');
-const outputFolder = path.join(__dirname, 'files-copy');
+const fileSourcePath = path.join(__dirname, 'files');
+const copyFilePath = path.join(__dirname, 'files-copy');
 
-async function copyDir (source, output) {
-    try {
-        await fs.promises.rm(output, { recursive: true });
-    } catch {
-      console.log('Creating "files-copy" folder');
-    } finally {
-      await createFolder(output);
-      const srcData = await readFolder(source);
-      await copyFiles(srcData, source, output);
+async function createCopyDir() {
+  try {
+    // remove the files-copy folder if it already exist
+    await fsProm.rm(copyFilePath, {force: true, recursive: true});
+    // create the files-copy folder if it does not exist yet
+    await fsProm.mkdir(copyFilePath, { recursive: true });
+    // get all files from files directory
+    const getFiles = await fsProm.readdir(fileSourcePath, {withFileTypes: true}, (files)=> files);
+    // copy get files to files-copy directory
+    for (const file of getFiles) {
+      fsProm.copyFile(path.join(fileSourcePath, file.name), path.join(copyFilePath, file.name));
     }
-  };
-  
- async function createFolder (folder) {
-    fs.promises.mkdir(folder, { recursive: true });
-  };
-  
- async function readFolder (folder) {
-    const allFilesNames = await fs.promises.readdir(folder, {
-      withFileTypes: true,
-    });
-  
-    return allFilesNames;
-  };
-  
- async function copyFiles (allFilesNames, srcFolder, outputFolder) {
-    for (let file of allFilesNames) {
-      const srcFile = path.join(srcFolder, file.name);
-      const outputFile = path.join(outputFolder, file.name);
-      if (file.isFile()) {
-        fs.promises.copyFile(srcFile, outputFile);
-      } else {
-        await copyDir(srcFile, outputFile);
-      }
-    }
-  };
-  
-  copyDir(srcFolder, outputFolder);
+  }
+  catch (error) {
+    console.error(error);
+  }
+}
+createCopyDir();
