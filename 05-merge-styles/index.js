@@ -1,25 +1,22 @@
 // Import all required modules
 const path = require('path');
 const fs = require('fs');
-// Define path for files
-const desFolder = 'styles';
-const exitFolder = 'project-dist';
-const FileName = 'bundle.css';
-const pathWritingFiles = path.join(__dirname, exitFolder, FileName);
+
+const pathWritingFiles = path.join(__dirname, 'project-dist', 'bundle.css');
 
 const outputFile = fs.createWriteStream(pathWritingFiles);
 
-async function buildBundle () {
-  const files = await fs.promises.readdir(path.join(__dirname, desFolder), {
+async function mergeBundle () {
+  const files = await fs.promises.readdir(path.join(__dirname, 'styles'), {
     withFileTypes: true,
   });
 
-  for await (const file of files) {
-    const filePath = path.join(__dirname, desFolder, file.name);
+  for (const file of files) {
+    const filePath = path.join(__dirname, 'styles', file.name);
     if (file.isFile() && path.extname(file.name) === '.css') {
       fs.createReadStream(filePath).pipe(outputFile);
     }
   }
 }
 
-buildBundle();
+mergeBundle();
